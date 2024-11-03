@@ -1,3 +1,5 @@
+import os
+import sys
 import feedparser
 import requests
 import hashlib
@@ -7,6 +9,7 @@ import html2text
 import urllib.parse
 import sqlite3
 import datetime
+import dotenv
 
 from feeds import feeds
 
@@ -16,6 +19,11 @@ def clean_html_tags(html_string):
     h.ignore_links = True
     clean_string = h.handle(html_string)
     return clean_string
+
+dotenv.load_dotenv()
+if os.getenv("OPENAI_KEY") is None:
+    print("OpenAI key not found!")
+    sys.exit(1)
 
 conn = sqlite3.connect("cache.db")
 cur = conn.cursor()

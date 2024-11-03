@@ -1,8 +1,10 @@
 # Python
 .venv
+.env
 __pycache__
-tools/out
-tools/cache.db
+voicebox/out
+voicebox/sandbox
+voicebox/cache.db
 
 # Xcode
 
