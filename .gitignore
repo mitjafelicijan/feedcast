@@ -1,3 +1,9 @@
+# Python
+.venv
+__pycache__
+tools/out
+tools/cache.db
+
 # Xcode
 
 .DS_Store
