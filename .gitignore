@@ -5,6 +5,7 @@ __pycache__
 voicebox/out
 voicebox/sandbox
 voicebox/cache.db
+audio/
 
 # Xcode
 
