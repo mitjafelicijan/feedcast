@@ -21,6 +21,7 @@ if os.getenv("OPENAI_KEY") is None:
 oai_client = openai.OpenAI(api_key = os.getenv("OPENAI_KEY"))
 today = datetime.date.today().strftime("%Y-%m-%d")
 
+# SQLite connection stuff.
 conn = sqlite3.connect("cache.db")
 conn.row_factory = sqlite3.Row
 cur = conn.cursor()
@@ -37,7 +38,7 @@ class Stories(BaseModel):
 sys_prompt = []
 sys_prompt.append("You are a content editor working for an online publication and you select only newsworthy and contextually unique stories.")
 sys_prompt.append("Each line consists of story ID as a hash and a title.")
-sys_prompt.append("Return back the list of just 20 unique stories.")
+sys_prompt.append("Return back the list of just 12 unique stories.")
 
 # Loop through all categories.
 cur.execute("SELECT DISTINCT(category) AS category FROM stories WHERE cdate=?", (today,))
@@ -56,8 +57,8 @@ for category in categories:
         model="gpt-4o-mini",
         response_format=Stories,
         messages=[
-            {"role": "system", "content": "\n".join(sys_prompt)},
-            {"role": "user", "content": "\n".join(user_prompt)}
+            { "role": "system", "content": "\n".join(sys_prompt) },
+            { "role": "user", "content": "\n".join(user_prompt) }
         ],
     )
 

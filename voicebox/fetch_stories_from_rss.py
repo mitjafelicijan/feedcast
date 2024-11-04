@@ -28,6 +28,7 @@ if os.getenv("OPENAI_KEY") is None:
     logging.error("OpenAI key not found!")
     sys.exit(1)
 
+# SQLite connection stuff.
 conn = sqlite3.connect("cache.db")
 cur = conn.cursor()
 

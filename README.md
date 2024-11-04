@@ -1,4 +1,4 @@
-# Feedcast - listen to news
+# Feedcast - Listen to news
 
 ## Starting categories
 
@@ -41,12 +41,13 @@
 ## Install tooling
 
 ```
+apt install ffmpeg
 python3 -m venv .venv
 source .venv/bin/activate
-pip install requests readability-lxml lxml_html_clean html2text feedparser python-dotenv openai
+pip install requests readability-lxml lxml_html_clean html2text feedparser python-dotenv openai pydub eyed3
 ```
 
-## Tools
+## Resources and links
 
 - https://platform.openai.com/docs/guides/text-to-speech
 - https://github.com/openai/whisper
@@ -59,4 +60,9 @@ pip install requests readability-lxml lxml_html_clean html2text feedparser pytho
 - https://developer.apple.com/app-store/subscriptions/
 - https://developer.apple.com/documentation/storekit/in-app_purchase/original_api_for_in-app_purchase/subscriptions_and_offers/handling_subscriptions_billing
 - https://www.revenuecat.com/blog/engineering/ios-in-app-subscription-tutorial-with-storekit-2-and-swift/
+
+## Attribution
+
+- Bumper - https://freesound.org/people/alexschmidtmeister/sounds/390518/
+- Jingle - https://freesound.org/people/alexschmidtmeister/sounds/390519/
 
