@@ -44,7 +44,7 @@
 apt install ffmpeg
 python3 -m venv .venv
 source .venv/bin/activate
-pip install requests readability-lxml lxml_html_clean html2text feedparser python-dotenv openai pydub eyed3
+pip install requests readability-lxml lxml_html_clean html2text feedparser python-dotenv openai pydub eyed3 boto3
 ```
 
 ## Resources and links

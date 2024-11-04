@@ -60,3 +60,5 @@ for category in categories:
     audiofile.tag.recording_date = eyed3.core.Date.parse(today)
     audiofile.tag.save()
 
+    logging.info("Episode %s has been generated", episode_file)
+

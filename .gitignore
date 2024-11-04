@@ -6,6 +6,7 @@ voicebox/out
 voicebox/sandbox
 voicebox/cache.db
 audio/
+api_object.json
 
 # Xcode
 
