@@ -3,15 +3,18 @@ import sys
 import feedparser
 import requests
 import hashlib
-import html2text
 import readability
 import html2text
 import urllib.parse
 import sqlite3
 import datetime
 import dotenv
+import logging
 
 from feeds import feeds
+
+script_name = os.path.basename(__file__)
+logging.basicConfig(level=logging.INFO, format=f"%(asctime)s [{script_name}] %(levelname)s - %(message)s")
 
 def clean_html_tags(html_string):
     h = html2text.HTML2Text()
@@ -22,7 +25,7 @@ def clean_html_tags(html_string):
 
 dotenv.load_dotenv()
 if os.getenv("OPENAI_KEY") is None:
-    print("OpenAI key not found!")
+    logging.error("OpenAI key not found!")
     sys.exit(1)
 
 conn = sqlite3.connect("cache.db")
@@ -39,7 +42,8 @@ cur.execute("""
             summary TEXT,
             cdate TEXT,
             domain TEXT,
-            process INT DEFAULT 0,
+            selected INT DEFAULT 0,
+            processed INT DEFAULT 0,
             category TEXT
     )
 """)
@@ -47,12 +51,9 @@ cur.execute("""
 for category in feeds:
     feed_urls = feeds[category]
 
-    print(f"{category}:")
     for feed_url in feed_urls:
         doc = feedparser.parse(feed_url)
-
         domain = urllib.parse.urlparse(feed_url).netloc
-        print(f" - {domain}")
 
         for entry in doc.entries:
             entry_html = requests.get(entry.link)
@@ -60,17 +61,13 @@ for category in feeds:
             entry_hash = hashlib.md5(entry.link.encode()).hexdigest()
             entry_summary = clean_html_tags(entry_doc.summary())
 
-            print(f"   + {entry_hash} - {entry_doc.title()}")
-
             try:
+                logging.info(f"New entry: {entry_doc.title()}")
                 cur.execute("INSERT INTO stories(hash, link, title, summary, cdate, domain, category) VALUES (?, ?, ?, ?, ?, ?, ?)",
                             (entry_hash, entry.link, entry.title, entry_summary, today, domain,category,))
                 conn.commit()
             except sqlite3.IntegrityError:
-                print(f"   x '{entry_hash}' already exists in the database")
-
-            # with open(f"cache/{entry_hash}.txt", "w") as fp:
-            #     fp.write(entry_summary)
+                logging.error(f"Already in database: {entry_doc.title()}")
 
 conn.close()
 
